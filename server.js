@@ -4,6 +4,15 @@ const fs = require("fs");
 
 const app = express();
 
+function findExistingCode(longUrl) {
+  for (const code in links) {
+    if (links[code] === longUrl) {
+      return code;
+    }
+  }
+  return null;
+}
+
 function makeCode() {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
