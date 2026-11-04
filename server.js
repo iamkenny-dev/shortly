@@ -17,6 +17,15 @@ app.use(express.urlencoded({ extended: false }));
 
 const links = {};
 
+function isValidUrl(text) {
+  try {
+    const url = new URL(text);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 app.get("/", (req, res) => {
   res.send(`
     <h1>Shortly</h1>
