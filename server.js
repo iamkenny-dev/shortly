@@ -18,7 +18,16 @@ function makeCode() {
 
 app.use(express.urlencoded({ extended: false }));
 
-const links = {};
+let links = {};
+if (fs.existsSync("links.json")) {
+  const savedText = fs.readFileSync("links.json", "utf8");
+  links = JSON.parse(savedText);
+}
+
+function saveLinks() {
+  const text = JSON.stringify(links, null, 2);
+  fs.writeFileSync("links.json", text);
+}
 
 function isValidUrl(text) {
   try {
@@ -55,6 +64,7 @@ app.post("/shorten", (req, res) => {
   }
   const code = makeCode();
   links[code] = longUrl;
+    saveLinks();
   console.log(links);
   const shortUrl = "http://localhost:3000/" + code;
   res.send(`Your short link: <a href="${shortUrl}">${shortUrl}</a>`);
