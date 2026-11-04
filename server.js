@@ -97,9 +97,19 @@ app.post("/shorten", (req, res) => {
       );
     return;
   }
-  const code = makeCode();
-  links[code] = longUrl;
-  saveLinks();
+
+  // const code = makeCode();
+  // links[code] = longUrl;
+  // saveLinks();
+
+    let code = findExistingCode(longUrl);
+
+    if (!code) {
+      code = makeCode();
+      links[code] = longUrl;
+      saveLinks();
+    }
+
   console.log(links);
   const shortUrl = "http://localhost:3000/" + code;
   res.send(`Your short link: <a href="${shortUrl}">${shortUrl}</a>`);
