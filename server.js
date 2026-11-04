@@ -1,13 +1,16 @@
 const express = require("express");
 
+const fs = require("fs");
+
 const app = express();
 
 function makeCode() {
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let code = "";
   for (let i = 0; i < 6; i++) {
     const randomPosition = Math.floor(Math.random() * characters.length);
-    code = code + characters[randomPosition]
+    code = code + characters[randomPosition];
     // code += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   return code;
@@ -42,14 +45,14 @@ app.get("/about", (req, res) => {
 
 app.post("/shorten", (req, res) => {
   const longUrl = req.body.url;
-    if (!isValidUrl(longUrl)) {
-      res
-        .status(400)
-        .send(
-          'That is not a valid link. It must start with http:// or https://. <a href="/">Try again</a>',
-        );
-      return;
-    }
+  if (!isValidUrl(longUrl)) {
+    res
+      .status(400)
+      .send(
+        'That is not a valid link. It must start with http:// or https://. <a href="/">Try again</a>',
+      );
+    return;
+  }
   const code = makeCode();
   links[code] = longUrl;
   console.log(links);
