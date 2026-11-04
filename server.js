@@ -4,18 +4,18 @@ const fs = require("fs");
 
 const app = express();
 
-//SecondTable
-const codeFor = {};
+// //SecondTable
+// const codeFor = {};
 
-// When shortening:
-let code = codeFor[longUrl];
+// // When shortening:
+// let code = codeFor[longUrl];
 
-if (!code) {
-  code = makeCode();
-  links[code] = longUrl;
-  codeFor[longUrl] = code; // keep the second table up to date
-  saveLinks();
-}
+// if (!code) {
+//   code = makeCode();
+//   links[code] = longUrl;
+//   codeFor[longUrl] = code; // keep the second table up to date
+//   saveLinks();
+// }
 
 function findExistingCode(longUrl) {
   for (const code in links) {
@@ -114,6 +114,20 @@ app.post("/shorten", (req, res) => {
   // const code = makeCode();
   // links[code] = longUrl;
   // saveLinks();
+
+  // const codeFor = {};
+
+  // // When shortening:
+  // let code = codeFor[longUrl];
+
+  // if (!code) {
+  //   code = makeCode();
+  //   links[code] = longUrl;
+  //   codeFor[longUrl] = code; // keep the second table up to date
+  //   saveLinks();
+  // }
+
+
 
   let code = findExistingCode(longUrl);
 
