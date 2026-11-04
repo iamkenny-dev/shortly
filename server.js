@@ -74,15 +74,11 @@ app.get("/about", (req, res) => {
 });
 
 app.post("/shorten", (req, res) => {
-  const longUrl = req.body.url;
-  if (!isValidUrl(longUrl)) {
-    res
-      .status(400)
-      .send(
-        'That is not a valid link. It must start with http:// or https://. <a href="/">Try again</a>',
-      );
+  const longUrl = cleanUpUrl(req.body.url);
+
+  if (!longUrl) {
+    res.status(400).send('That does not look like a web address. Try something like zebra.com. <a href="/">Try again</a>');
     return;
-  }
   const code = makeCode();
   links[code] = longUrl;
     saveLinks();
