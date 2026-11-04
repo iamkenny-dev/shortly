@@ -68,7 +68,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/about", (req, res) => {
-  res.send("My name is ...");
+  res.send("My name is Kenny. I built this URL shortener with Node.js and Express.");
 });
 
 app.post("/shorten", (req, res) => {
