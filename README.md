@@ -13,8 +13,10 @@ A URL shortener built with Node.js and Express, like a mini bit.ly.
 
 
 ## Run it
+```
 npm install
 node server.js
+```
 
 Then open http://localhost:3000
 
