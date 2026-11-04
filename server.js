@@ -20,8 +20,12 @@ app.use(express.urlencoded({ extended: false }));
 
 let links = {};
 if (fs.existsSync("links.json")) {
-  const savedText = fs.readFileSync("links.json", "utf8");
-  links = JSON.parse(savedText);
+  try {
+    const savedText = fs.readFileSync("links.json", "utf8");
+    links = JSON.parse(savedText);
+  } catch {
+    console.log("links.json is empty or broken, starting with no links.");
+  }
 }
 
 function saveLinks() {
@@ -77,11 +81,16 @@ app.post("/shorten", (req, res) => {
   const longUrl = cleanUpUrl(req.body.url);
 
   if (!longUrl) {
-    res.status(400).send('That does not look like a web address. Try something like zebra.com. <a href="/">Try again</a>');
+    res
+      .status(400)
+      .send(
+        'That does not look like a web address. Try something like zebra.com. <a href="/">Try again</a>',
+      );
     return;
+  }
   const code = makeCode();
   links[code] = longUrl;
-    saveLinks();
+  saveLinks();
   console.log(links);
   const shortUrl = "http://localhost:3000/" + code;
   res.send(`Your short link: <a href="${shortUrl}">${shortUrl}</a>`);
