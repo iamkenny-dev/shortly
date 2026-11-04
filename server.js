@@ -29,12 +29,33 @@ function saveLinks() {
   fs.writeFileSync("links.json", text);
 }
 
-function isValidUrl(text) {
+// function isValidUrl(text) {
+//   try {
+//     const url = new URL(text);
+//     return url.protocol === "http:" || url.protocol === "https:";
+//   } catch {
+//     return false;
+//   }
+// }
+
+function cleanUpUrl(text) {
+  if (typeof text !== "string") return null;
+
+  let cleaned = text.trim();
+
+  const lower = cleaned.toLowerCase();
+  if (!lower.startsWith("http://") && !lower.startsWith("https://")) {
+    cleaned = "https://" + cleaned;
+  }
+
   try {
-    const url = new URL(text);
-    return url.protocol === "http:" || url.protocol === "https:";
+    const url = new URL(cleaned);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+    if (!url.hostname.includes(".")) return null;
+    if (url.username || url.password) return null;
+    return url.href;
   } catch {
-    return false;
+    return null;
   }
 }
 
